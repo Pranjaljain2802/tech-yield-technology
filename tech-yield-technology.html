@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tech Yield Technology – Where Technology Meets Freedom</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #0a0a0a; --white: #f5f3ee; --accent: #ff4c1f; --accent2: #ff8c42;
+      --mid: #111; --muted: #888; --card-bg: #111; --border: rgba(255,255,255,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 60px; height: 56px;
+      background: rgba(10,10,10,0.88); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; color: var(--white); text-decoration: none; }
+    .logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-size: 0.82rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .nav-cta { background: var(--accent); color: #fff; border: none; cursor: pointer; padding: 9px 22px; font-size: 0.82rem; font-family: 'DM Sans', sans-serif; font-weight: 500; border-radius: 100px; transition: all 0.2s; }
+    .nav-cta:hover { background: var(--accent2); transform: scale(1.03); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: all 0.3s; }
+    .mobile-menu { display: none; position: fixed; top: 56px; left: 0; right: 0; background: rgba(10,10,10,0.98); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 24px 24px; z-index: 99; flex-direction: column; gap: 20px; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1rem; color: var(--muted); text-decoration: none; text-transform: uppercase; letter-spacing: 1px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 60px; padding: 100px 60px 120px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -200px; right: -200px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(255,76,31,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.75rem; font-weight: 500; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(255,76,31,0.35);
+      padding: 6px 14px; border-radius: 100px; margin-bottom: 24px;
+    }
+    .hero-eyebrow::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1.8s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.5)} }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.6rem, 5.5vw, 5rem); font-weight: 800; line-height: 1.0; letter-spacing: -2px; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; color: var(--accent); display: block; }
+    .hero p { font-size: 1rem; color: var(--muted); max-width: 420px; line-height: 1.7; margin-bottom: 36px; }
+    .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; cursor: pointer; padding: 14px 30px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; font-weight: 500; border-radius: 100px; transition: all 0.2s; text-decoration: none; display: inline-block; }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+    .btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.2); cursor: pointer; padding: 14px 30px; font-size: 0.9rem; font-family: 'DM Sans', sans-serif; border-radius: 100px; transition: all 0.2s; text-decoration: none; display: inline-block; }
+    .btn-outline:hover { border-color: var(--white); background: rgba(255,255,255,0.05); }
+
+    /* HERO PHONE */
+    .hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
+    .phone-mockup { width: 240px; height: 490px; background: linear-gradient(145deg, #1e1e1e, #111); border-radius: 44px; border: 1px solid rgba(255,255,255,0.12); position: relative; z-index: 2; box-shadow: 0 60px 120px rgba(0,0,0,0.7); animation: float 4s ease-in-out infinite; overflow: hidden; }
+    @keyframes float { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-18px) rotate(-3deg)} }
+    .phone-screen { position: absolute; inset: 10px; border-radius: 36px; background: linear-gradient(160deg,#1a1a2e,#16213e,#0f3460); overflow: hidden; }
+    .phone-screen::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 20%, rgba(255,76,31,0.3), transparent 60%); }
+    .phone-notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 72px; height: 20px; background: var(--black); border-radius: 100px; z-index: 3; }
+    .phone-screen-content { position: absolute; inset: 0; padding: 46px 18px 18px; display: flex; flex-direction: column; gap: 10px; }
+    .ps-icon { width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg,var(--accent),var(--accent2)); margin: 6px 0; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+    .ps-label { font-size: 8px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1px; }
+    .ps-bar { height: 5px; border-radius: 3px; background: rgba(255,255,255,0.1); }
+    .ps-bar.w90 { width:90%; background:rgba(255,76,31,0.4); }
+    .ps-bar.w80 { width:80%; }
+    .ps-bar.w60 { width:60%; }
+    .ps-value { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:700; color:#fff; }
+    .glow-ring { position:absolute; width:360px; height:360px; border:1px solid rgba(255,76,31,0.15); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); animation:spin 20s linear infinite; }
+    .glow-ring::after { content:''; position:absolute; width:8px; height:8px; background:var(--accent); border-radius:50%; top:-4px; left:50%; box-shadow:0 0 12px var(--accent); }
+    @keyframes spin { to{transform:translate(-50%,-50%) rotate(360deg)} }
+    .glow-ring2 { position:absolute; width:460px; height:460px; border:1px dashed rgba(255,255,255,0.05); border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); animation:spin 40s linear infinite reverse; }
+    .hero-stats { position:absolute; bottom:0; left:60px; right:60px; display:flex; gap:32px; padding:24px 0; border-top:1px solid var(--border); flex-wrap:wrap; }
+    .stat-item { display:flex; flex-direction:column; gap:3px; }
+    .stat-num { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:700; }
+    .stat-label { font-size:0.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+
+    /* MARQUEE */
+    .marquee-section { padding:24px 0; overflow:hidden; border-top:1px solid var(--border); border-bottom:1px solid var(--border); background:#111; }
+    .marquee-track { display:flex; gap:48px; width:max-content; animation:marquee 22s linear infinite; white-space:nowrap; }
+    @keyframes marquee { to{transform:translateX(-50%)} }
+    .marquee-item { font-family:'Syne',sans-serif; font-size:0.82rem; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--muted); display:flex; align-items:center; gap:14px; }
+    .marquee-item span { color:var(--accent); }
+
+    /* SECTIONS */
+    section { padding:90px 60px; }
+    .section-label { font-size:0.72rem; font-weight:500; letter-spacing:3px; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
+    .section-title { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3.5vw,3rem); font-weight:700; letter-spacing:-1px; line-height:1.1; margin-bottom:14px; }
+    .section-sub { font-size:0.95rem; color:var(--muted); max-width:500px; line-height:1.7; }
+
+    /* ── INNOVATION FEATURES – BENTO STYLE ── */
+    #innovations { background: var(--black); }
+    .inno-intro { text-align: center; max-width: 660px; margin: 0 auto 64px; }
+    .inno-intro .section-sub { max-width: 100%; }
+
+    /* BENTO GRID */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: minmax(60px, auto);
+      gap: 14px;
+    }
+
+    /* BASE BENTO TILE */
+    .btile {
+      background: #111;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px 34px;
+      position: relative; overflow: hidden;
+      transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s, box-shadow 0.3s;
+    }
+    .btile:hover {
+      transform: translateY(-5px) scale(1.01);
+      border-color: rgba(255,76,31,0.35);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,76,31,0.12);
+    }
+
+    /* GLOW BG ON HOVER */
+    .btile::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at var(--mx,50%) var(--my,50%), rgba(255,76,31,0.07) 0%, transparent 60%);
+      opacity: 0; transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .btile:hover::after { opacity: 1; }
+
+    /* COLUMN SPANS */
+    .btile-5  { grid-column: span 5; }
+    .btile-7  { grid-column: span 7; }
+    .btile-4  { grid-column: span 4; }
+    .btile-8  { grid-column: span 8; }
+    .btile-6  { grid-column: span 6; }
+    .btile-3  { grid-column: span 3; }
+
+    /* ACCENT STRIPE */
+    .btile-accent { background: linear-gradient(135deg, #1a0800 0%, #140600 100%); border-color: rgba(255,76,31,0.25); }
+    .btile-blue   { background: linear-gradient(135deg, #050d1a 0%, #030a14 100%); border-color: rgba(0,120,255,0.2); }
+    .btile-green  { background: linear-gradient(135deg, #041008 0%, #020c06 100%); border-color: rgba(50,200,100,0.2); }
+    .btile-purple { background: linear-gradient(135deg, #0e0618 0%, #090413 100%); border-color: rgba(160,80,255,0.2); }
+
+    /* NUMBER LABEL */
+    .btile-num {
+      position: absolute; top: 28px; right: 32px;
+      font-family: 'Syne', sans-serif; font-size: 4rem; font-weight: 800;
+      color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none;
+      letter-spacing: -4px;
+    }
+
+    /* ICON */
+    .btile-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; margin-bottom: 22px; flex-shrink: 0;
+    }
+    .icon-orange { background: linear-gradient(135deg, rgba(255,76,31,0.25), rgba(255,140,66,0.12)); border: 1px solid rgba(255,76,31,0.25); }
+    .icon-blue   { background: linear-gradient(135deg, rgba(0,120,255,0.2), rgba(0,180,255,0.1)); border: 1px solid rgba(0,120,255,0.25); }
+    .icon-green  { background: linear-gradient(135deg, rgba(50,200,100,0.2), rgba(50,220,120,0.1)); border: 1px solid rgba(50,200,100,0.25); }
+    .icon-purple { background: linear-gradient(135deg, rgba(160,80,255,0.2), rgba(180,100,255,0.1)); border: 1px solid rgba(160,80,255,0.25); }
+    .icon-amber  { background: linear-gradient(135deg, rgba(255,180,0,0.2), rgba(255,200,0,0.1)); border: 1px solid rgba(255,180,0,0.25); }
+    .icon-teal   { background: linear-gradient(135deg, rgba(0,200,180,0.2), rgba(0,220,200,0.1)); border: 1px solid rgba(0,200,180,0.25); }
+
+    /* PILL BADGE */
+    .btile-pill {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px; margin-bottom: 14px;
+    }
+    .pill-orange { background: rgba(255,76,31,0.12); color: var(--accent); border: 1px solid rgba(255,76,31,0.25); }
+    .pill-blue   { background: rgba(0,120,255,0.12); color: #4ca3ff; border: 1px solid rgba(0,120,255,0.25); }
+    .pill-green  { background: rgba(50,200,100,0.12); color: #32c864; border: 1px solid rgba(50,200,100,0.25); }
+    .pill-purple { background: rgba(160,80,255,0.12); color: #b46aff; border: 1px solid rgba(160,80,255,0.25); }
+    .pill-amber  { background: rgba(255,180,0,0.12); color: #ffb400; border: 1px solid rgba(255,180,0,0.25); }
+    .pill-teal   { background: rgba(0,200,180,0.12); color: #00c8b4; border: 1px solid rgba(0,200,180,0.25); }
+
+    .btile-title { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.4px; margin-bottom: 10px; line-height: 1.2; }
+    .btile-title.big { font-size: 1.5rem; letter-spacing: -0.8px; }
+    .btile-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.7; }
+    .btile-desc.sm { font-size: 0.75rem; }
+
+    /* TAGS */
+    .btile-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 16px; }
+    .btile-tag { font-size: 0.6rem; font-weight: 500; padding: 3px 9px; border-radius: 100px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); }
+
+    /* STAT ROW INSIDE BENTO */
+    .bento-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
+    .bento-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 12px 14px; }
+    .bento-stat-n { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 800; letter-spacing: -0.5px; }
+    .bento-stat-l { font-size: 0.62rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 1px; }
+
+    /* HORIZONTAL LAYOUT FOR WIDE TILES */
+    .btile-row { display: flex; gap: 28px; align-items: flex-start; }
+    .btile-row .btile-left { flex: 1; }
+    .btile-row .btile-right { flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; width: 160px; }
+
+    /* VISUAL DEMO BARS */
+    .demo-bars { margin-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+    .demo-bar-row { display: flex; align-items: center; gap: 10px; }
+    .demo-bar-label { font-size: 0.65rem; color: var(--muted); width: 64px; flex-shrink: 0; }
+    .demo-bar-track { flex: 1; height: 4px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+    .demo-bar-fill { height: 100%; border-radius: 4px; }
+
+    /* RESPONSIVE */
+    @media (max-width: 960px) {
+      .bento-grid { grid-template-columns: 1fr 1fr; }
+      .btile-5, .btile-7, .btile-4, .btile-8, .btile-6, .btile-3 { grid-column: span 2; }
+      .btile-row { flex-direction: column; }
+      .btile-row .btile-right { width: 100%; flex-direction: row; flex-wrap: wrap; }
+    }
+    @media (max-width: 540px) {
+      .bento-grid { grid-template-columns: 1fr; }
+      .btile-5, .btile-7, .btile-4, .btile-8, .btile-6, .btile-3 { grid-column: span 1; }
+      .bento-stats { grid-template-columns: 1fr 1fr; }
+      .btile { padding: 26px 22px; }
+    }
+
+    /* PRODUCTS */
+    #products { background: #111; }
+    .products-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; flex-wrap: wrap; gap: 20px; }
+    .filter-tabs { display: flex; gap: 6px; background: rgba(255,255,255,0.04); padding: 4px; border-radius: 100px; }
+    .filter-tab { padding: 7px 18px; font-size: 0.78rem; border-radius: 100px; cursor: pointer; border: none; background: transparent; color: var(--muted); font-family: 'DM Sans', sans-serif; font-weight: 500; transition: all 0.2s; }
+    .filter-tab.active, .filter-tab:hover { background: var(--accent); color: #fff; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+    .product-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; cursor: pointer; }
+    .product-card:hover { transform: translateY(-7px); box-shadow: 0 28px 56px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,76,31,0.25); border-color: rgba(255,76,31,0.3); }
+    .product-img { height: 200px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .phone-svg { width: 76px; filter: drop-shadow(0 16px 32px rgba(0,0,0,0.6)); transition: transform 0.4s; }
+    .product-card:hover .phone-svg { transform: scale(1.1) translateY(-5px); }
+
+    /* Feature badges on card */
+    .card-features { position: absolute; top: 12px; left: 12px; display: flex; flex-direction: column; gap: 4px; }
+    .cf-badge { font-size: 0.56rem; font-weight: 600; padding: 2px 7px; border-radius: 100px; background: rgba(10,10,10,0.85); border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.7); backdrop-filter: blur(8px); white-space: nowrap; }
+    .cf-badge.solar { border-color: rgba(255,200,0,0.4); color: #ffd60a; }
+    .cf-badge.projector { border-color: rgba(100,180,255,0.4); color: #64b4ff; }
+    .cf-badge.esim { border-color: rgba(50,200,100,0.4); color: #32c864; }
+    .cf-badge.modular { border-color: rgba(255,76,31,0.4); color: var(--accent2); }
+
+    .product-info { padding: 18px 20px 20px; }
+    .product-tag { display: inline-block; font-size: 0.64rem; padding: 3px 9px; border-radius: 100px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 8px; }
+    .tag-new { background: rgba(255,76,31,0.15); color: var(--accent); }
+    .tag-hot { background: rgba(255,140,66,0.15); color: var(--accent2); }
+    .tag-sale { background: rgba(50,200,100,0.15); color: #32c864; }
+    .product-name { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 4px; }
+    .product-spec { font-size: 0.76rem; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; }
+    .product-price-old { font-size: 0.75rem; color: var(--muted); text-decoration: line-through; margin-left: 5px; }
+    .add-cart-btn { background: var(--accent); color: #fff; border: none; cursor: pointer; padding: 8px 16px; font-size: 0.78rem; font-family: 'DM Sans', sans-serif; font-weight: 500; border-radius: 100px; transition: all 0.2s; }
+    .add-cart-btn:hover { background: var(--accent2); transform: scale(1.05); }
+
+    /* FEATURES */
+    #features { background: var(--black); }
+    .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 56px; }
+    .feature-list { display: flex; flex-direction: column; gap: 22px; }
+    .feature-item { display: flex; gap: 18px; align-items: flex-start; padding: 20px; border-radius: 14px; border: 1px solid transparent; transition: all 0.3s; }
+    .feature-item:hover { background: rgba(255,255,255,0.03); border-color: var(--border); }
+    .feature-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(255,76,31,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; border: 1px solid rgba(255,76,31,0.2); }
+    .feature-text h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 5px; }
+    .feature-text p { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .features-visual { display: flex; flex-direction: column; gap: 12px; }
+    .spec-card { background: #111; border: 1px solid var(--border); border-radius: 14px; padding: 18px 22px; display: flex; align-items: center; gap: 14px; transition: transform 0.2s, border-color 0.2s; }
+    .spec-card:hover { transform: translateX(6px); border-color: rgba(255,76,31,0.3); }
+    .spec-icon-big { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg,rgba(255,76,31,0.2),rgba(255,140,66,0.1)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; }
+    .spec-info { flex: 1; }
+    .spec-name { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .spec-val { font-family: 'Syne', sans-serif; font-size: 1.1rem; font-weight: 700; margin-top: 2px; }
+    .spec-bar-wrap { height: 3px; background: rgba(255,255,255,0.06); border-radius: 3px; margin-top: 7px; overflow: hidden; }
+    .spec-bar { height: 100%; border-radius: 3px; background: linear-gradient(to right,var(--accent),var(--accent2)); }
+
+    /* REVIEWS */
+    #reviews { background: #111; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 52px; }
+    .review-card { background: var(--black); border: 1px solid var(--border); border-radius: 18px; padding: 26px; transition: transform 0.3s, border-color 0.3s; }
+    .review-card:hover { transform: translateY(-4px); border-color: rgba(255,76,31,0.2); }
+    .stars { font-size: 0.85rem; color: #fbbf24; margin-bottom: 14px; }
+    .review-text { font-size: 0.86rem; color: rgba(245,243,238,0.75); line-height: 1.75; margin-bottom: 18px; }
+    .reviewer { display: flex; align-items: center; gap: 10px; }
+    .reviewer-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,var(--accent),var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .reviewer-name { font-size: 0.85rem; font-weight: 500; }
+    .reviewer-loc { font-size: 0.72rem; color: var(--muted); }
+
+    /* CTA */
+    .cta-section { margin: 0 60px 90px; background: linear-gradient(135deg,#1a0800,#200c00); border: 1px solid rgba(255,76,31,0.25); border-radius: 24px; padding: 64px 72px; display: flex; align-items: center; justify-content: space-between; position: relative; overflow: hidden; gap: 32px; flex-wrap: wrap; }
+    .cta-section::before { content:''; position:absolute; top:-80px; left:-80px; width:360px; height:360px; background:radial-gradient(circle,rgba(255,76,31,0.18),transparent 70%); pointer-events:none; }
+    .cta-text h2 { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,3.5vw,2.8rem); font-weight:800; letter-spacing:-1px; margin-bottom:10px; position:relative; z-index:1; }
+    .cta-text p { font-size:0.95rem; color:var(--muted); position:relative; z-index:1; }
+    .cta-actions { display:flex; gap:14px; position:relative; z-index:1; flex-wrap:wrap; flex-shrink:0; }
+
+    /* FOOTER */
+    footer { background: #111; border-top: 1px solid var(--border); padding: 52px 60px 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 44px; }
+    .footer-brand p { font-size: 0.82rem; color: var(--muted); line-height: 1.7; margin-top: 12px; max-width: 240px; }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 0.82rem; font-weight: 700; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 1px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col ul li a { font-size: 0.82rem; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--white); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+    .footer-bottom p { font-size: 0.76rem; color: var(--muted); }
+    .social-links { display: flex; gap: 10px; }
+    .social-btn { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.72rem; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.2s; }
+    .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── MOBILE RESPONSIVE ── */
+    @media (max-width: 960px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; padding: 90px 24px 100px; gap: 40px; min-height: auto; }
+      .hero-visual { display: none; }
+      .hero-stats { left: 24px; right: 24px; gap: 20px; }
+      section { padding: 60px 24px; }
+      /* bento responsive handled in its own block */
+      .products-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+      .features-grid { grid-template-columns: 1fr; gap: 36px; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .cta-section { margin: 0 24px 60px; padding: 40px 28px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+    }
+    @media (max-width: 540px) {
+      .hero h1 { letter-spacing: -1.5px; }
+      .products-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .filter-tabs { width: 100%; }
+      .filter-tab { flex: 1; text-align: center; }
+      /* btile padding handled in bento block */
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">Tech<span>Yield</span></a>
+  <ul class="nav-links">
+    <li><a href="#innovations">Innovations</a></li>
+    <li><a href="#products">Phones</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+    <div class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#innovations" onclick="toggleMenu()">Innovations</a>
+  <a href="#products" onclick="toggleMenu()">Phones</a>
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#reviews" onclick="toggleMenu()">Reviews</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">New Collection 2025</div>
+    <h1>Where Technology<br/><em>Meets Freedom.</em></h1>
+    <p>The world's first solar-powered, projector-equipped, fully modular smartphone. Designed to evolve with you — forever.</p>
+    <div class="hero-actions">
+      <a href="#innovations" class="btn-primary">See Innovations</a>
+      <a href="#products" class="btn-outline">Explore Phones</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="glow-ring2"></div>
+    <div class="glow-ring"></div>
+    <div class="phone-mockup">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="phone-screen-content">
+          <div class="ps-icon">☀️</div>
+          <div class="ps-label">Solar Charging</div>
+          <div class="ps-bar w90"></div>
+          <div class="ps-label" style="margin-top:10px">Performance</div>
+          <div class="ps-bar w80"></div>
+          <div class="ps-label" style="margin-top:10px">Speed</div>
+          <div class="ps-bar w60"></div>
+          <div style="margin-top:12px">
+            <div class="ps-label">TY Score</div>
+            <div class="ps-value">9.9/10</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><span class="stat-num" style="color:var(--accent)">50K+</span><span class="stat-label">Customers</span></div>
+    <div class="stat-item"><span class="stat-num">6</span><span class="stat-label">Innovations</span></div>
+    <div class="stat-item"><span class="stat-num">4.9★</span><span class="stat-label">Rating</span></div>
+    <div class="stat-item"><span class="stat-num">2Yr</span><span class="stat-label">Warranty</span></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Solar Charging <span>✦</span></div>
+    <div class="marquee-item">Built-in Projector <span>✦</span></div>
+    <div class="marquee-item">Modular Parts <span>✦</span></div>
+    <div class="marquee-item">eSIM + Physical SIM <span>✦</span></div>
+    <div class="marquee-item">Extendable RAM <span>✦</span></div>
+    <div class="marquee-item">Direct PC Connect <span>✦</span></div>
+    <div class="marquee-item">Free Shipping <span>✦</span></div>
+    <div class="marquee-item">Solar Charging <span>✦</span></div>
+    <div class="marquee-item">Built-in Projector <span>✦</span></div>
+    <div class="marquee-item">Modular Parts <span>✦</span></div>
+    <div class="marquee-item">eSIM + Physical SIM <span>✦</span></div>
+    <div class="marquee-item">Extendable RAM <span>✦</span></div>
+    <div class="marquee-item">Direct PC Connect <span>✦</span></div>
+    <div class="marquee-item">Free Shipping <span>✦</span></div>
+  </div>
+</div>
+
+<!-- INNOVATIONS SECTION -->
+<section id="innovations">
+  <div class="inno-intro">
+    <div class="section-label">World-First Features</div>
+    <h2 class="section-title">Technology That<br/>Was Never Seen Before.</h2>
+    <p class="section-sub">Tech Yield doesn't just sell phones — we reinvent them. Six patents. Six firsts. All in one device.</p>
+  </div>
+
+  <div class="bento-grid">
+
+    <!-- SOLAR — BIG LEFT -->
+    <div class="btile btile-5 btile-accent">
+      <div class="btile-num">01</div>
+      <div class="btile-icon icon-orange">☀️</div>
+      <div class="btile-pill pill-orange">✦ World First</div>
+      <div class="btile-title big">Dual-Side<br/>Solar Panel</div>
+      <div class="btile-desc">Micro solar cells embedded on front glass and rear panel both. Charges passively — in sunlight or office lighting. No charger needed on a sunny day.</div>
+      <div class="demo-bars">
+        <div class="demo-bar-row"><span class="demo-bar-label">Sunlight</span><div class="demo-bar-track"><div class="demo-bar-fill" style="width:92%;background:linear-gradient(to right,#ff4c1f,#ff8c42)"></div></div></div>
+        <div class="demo-bar-row"><span class="demo-bar-label">Office Light</span><div class="demo-bar-track"><div class="demo-bar-fill" style="width:55%;background:linear-gradient(to right,#ff8c42,#ffb400)"></div></div></div>
+        <div class="demo-bar-row"><span class="demo-bar-label">Indoor Lamp</span><div class="demo-bar-track"><div class="demo-bar-fill" style="width:30%;background:linear-gradient(to right,#ffb400,#ffe066)"></div></div></div>
+      </div>
+      <div class="btile-tags">
+        <span class="btile-tag">Front + Rear</span>
+        <span class="btile-tag">Passive Charging</span>
+        <span class="btile-tag">Always On</span>
+      </div>
+    </div>
+
+    <!-- PROJECTOR — RIGHT -->
+    <div class="btile btile-7 btile-blue">
+      <div class="btile-num">02</div>
+      <div class="btile-row">
+        <div class="btile-left">
+          <div class="btile-icon icon-blue">🎥</div>
+          <div class="btile-pill pill-blue">📽️ Exclusive</div>
+          <div class="btile-title big">Built-in<br/>Projector</div>
+          <div class="btile-desc">Micro LCD/LED projector integrated alongside the flashlight. Project movies, maps, and slides up to 60 inches on any wall. Zero setup. Zero dongles.</div>
+          <div class="btile-tags" style="margin-top:18px">
+            <span class="btile-tag">Up to 60"</span>
+            <span class="btile-tag">120 Lumens</span>
+            <span class="btile-tag">Auto Keystone</span>
+            <span class="btile-tag">Shares Flashlight</span>
+          </div>
+        </div>
+        <div class="btile-right">
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#4ca3ff">60"</div><div class="bento-stat-l">Max Screen Size</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#4ca3ff">120</div><div class="bento-stat-l">Lumens Output</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#4ca3ff">0</div><div class="bento-stat-l">Extra Accessories</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#4ca3ff">Auto</div><div class="bento-stat-l">Keystone Fix</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULAR — LEFT -->
+    <div class="btile btile-4 btile-green">
+      <div class="btile-num">03</div>
+      <div class="btile-icon icon-green">🧩</div>
+      <div class="btile-pill pill-green">🔧 Modular</div>
+      <div class="btile-title">100% Modular<br/>Hardware</div>
+      <div class="btile-desc sm">Swap any part yourself. Upgrade camera to Sony. Switch speaker to Dolby Atmos. Replace battery, screen, RAM — no service centre needed. Your phone evolves with you.</div>
+      <div class="btile-tags">
+        <span class="btile-tag">Sony Camera</span>
+        <span class="btile-tag">Dolby Atmos</span>
+        <span class="btile-tag">DIY Swap</span>
+        <span class="btile-tag">Upgradeable</span>
+      </div>
+    </div>
+
+    <!-- eSIM — MIDDLE-RIGHT BIG -->
+    <div class="btile btile-8 btile-purple">
+      <div class="btile-num">04</div>
+      <div class="btile-row">
+        <div class="btile-left">
+          <div class="btile-icon icon-purple">📲</div>
+          <div class="btile-pill pill-purple">📶 Hybrid Connectivity</div>
+          <div class="btile-title big">eSIM + Physical SIM<br/>Both Active. Always.</div>
+          <div class="btile-desc">Run two networks simultaneously. Business + personal on one device. Connect directly to your PC — no app, no driver, no cable needed. Your phone appears like a native device instantly.</div>
+          <div class="btile-tags" style="margin-top:18px">
+            <span class="btile-tag">Dual Active SIM</span>
+            <span class="btile-tag">Instant eSIM Switch</span>
+            <span class="btile-tag">Driverless PC Connect</span>
+            <span class="btile-tag">USB 3.2 + Wi-Fi Bridge</span>
+          </div>
+        </div>
+        <div class="btile-right">
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#b46aff">8</div><div class="bento-stat-l">eSIM Profiles</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#b46aff">2</div><div class="bento-stat-l">Active SIMs</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#b46aff">0</div><div class="bento-stat-l">Apps Needed</div></div>
+          <div class="bento-stat"><div class="bento-stat-n" style="color:#b46aff">0</div><div class="bento-stat-l">Drivers Needed</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RAM — SMALL -->
+    <div class="btile btile-3">
+      <div class="btile-num">05</div>
+      <div class="btile-icon icon-amber">⚙️</div>
+      <div class="btile-pill pill-amber">🧠 Smart Tech</div>
+      <div class="btile-title">Extendable<br/>RAM</div>
+      <div class="btile-desc sm">RAM grows dynamically with usage. Software-driven expansion — no hardware swap needed. Old updates archived, never lost.</div>
+      <div class="btile-tags">
+        <span class="btile-tag">Dynamic Expansion</span>
+        <span class="btile-tag">Safe Rollback</span>
+      </div>
+    </div>
+
+    <!-- FREEDOM OS — SMALL -->
+    <div class="btile btile-3">
+      <div class="btile-num">06</div>
+      <div class="btile-icon icon-teal">🔓</div>
+      <div class="btile-pill pill-teal">🛠️ Open Platform</div>
+      <div class="btile-title">Freedom OS</div>
+      <div class="btile-desc sm">Zero bloatware. Root access out-of-box. One-tap Freedom Mode. Install anything, customise everything. Your OS, your rules.</div>
+      <div class="btile-tags">
+        <span class="btile-tag">No Bloatware</span>
+        <span class="btile-tag">Root OOB</span>
+      </div>
+    </div>
+
+    <!-- BOTTOM WIDE — ALL FEATURES SUMMARY -->
+    <div class="btile btile-6" style="background:linear-gradient(135deg,#0f0f0f,#161616); display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height: 120px;">
+      <div style="font-family:'Syne',sans-serif; font-size:2.2rem; font-weight:800; letter-spacing:-1px; background:linear-gradient(135deg,#ff4c1f,#ff8c42,#ffb400); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; margin-bottom:8px;">All 6 Features.</div>
+      <div style="font-size:0.82rem; color:var(--muted);">One device. The TY Ultra Max has them all — from ₹39,999.</div>
+      <a href="#products" class="btn-primary" style="margin-top:18px; font-size:0.8rem; padding:10px 24px;">See the Ultra Max →</a>
+    </div>
+
+    <div class="btile btile-6" style="background:#0d0d0d; padding:28px 32px;">
+      <div style="font-size:0.7rem; color:var(--muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:16px;">Innovation at a glance</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px;">
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">☀️</div><div style="font-size:0.65rem; color:var(--muted);">Solar</div></div>
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">🎥</div><div style="font-size:0.65rem; color:var(--muted);">Projector</div></div>
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">🧩</div><div style="font-size:0.65rem; color:var(--muted);">Modular</div></div>
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">📲</div><div style="font-size:0.65rem; color:var(--muted);">eSIM+SIM</div></div>
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">⚙️</div><div style="font-size:0.65rem; color:var(--muted);">Ext. RAM</div></div>
+        <div style="text-align:center;"><div style="font-size:1.4rem; margin-bottom:4px;">🔓</div><div style="font-size:0.65rem; color:var(--muted);">Freedom OS</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PRODUCTS -->
+<section id="products">
+  <div class="products-header">
+    <div>
+      <div class="section-label">Our Collection</div>
+      <h2 class="section-title">Featured Phones</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active">All</button>
+      <button class="filter-tab">5G</button>
+      <button class="filter-tab">Budget</button>
+      <button class="filter-tab">Premium</button>
+    </div>
+  </div>
+  <div class="products-grid">
+
+    <!-- P1 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#1a0a00,#120600)">
+        <div class="card-features">
+          <span class="cf-badge solar">☀️ Solar</span>
+          <span class="cf-badge projector">📽️ Projector</span>
+          <span class="cf-badge modular">🧩 Modular</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g1" cx="50%" cy="30%"><stop offset="0%" stop-color="#ff4c1f" stop-opacity="0.5"/><stop offset="100%" stop-color="#060214"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="12" fill="#1e1e1e" stroke="#333" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="10" fill="#0d0d0d"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g1)"/>
+          <circle cx="40" cy="130" r="6" fill="#2a2a2a" stroke="#444" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-new">New Launch</span>
+        <div class="product-name">TY Fusion X1 Pro</div>
+        <div class="product-spec">6.7" AMOLED · 50MP · 5000mAh · Snapdragon 8 Gen 3 · Solar + Projector</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹24,999</span><span class="product-price-old">₹29,999</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P2 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#00100a,#001208)">
+        <div class="card-features">
+          <span class="cf-badge solar">☀️ Solar</span>
+          <span class="cf-badge esim">📶 eSIM</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g2" cx="50%" cy="30%"><stop offset="0%" stop-color="#4c7fff" stop-opacity="0.6"/><stop offset="100%" stop-color="#001020"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="12" fill="#1a1a2e" stroke="#2a2a4e" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="10" fill="#0d0d20"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g2)"/>
+          <circle cx="40" cy="130" r="6" fill="#1a1a3e" stroke="#2a2a5e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-hot">Bestseller</span>
+        <div class="product-name">TY Nova 5G</div>
+        <div class="product-spec">6.5" Super AMOLED · 64MP · 4800mAh · 5G · Solar · Dual SIM+eSIM</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹18,499</span><span class="product-price-old">₹21,000</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P3 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#0a0010,#060008)">
+        <div class="card-features">
+          <span class="cf-badge esim">📶 eSIM</span>
+          <span class="cf-badge modular">🧩 Modular</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g3" cx="50%" cy="30%"><stop offset="0%" stop-color="#b44cff" stop-opacity="0.5"/><stop offset="100%" stop-color="#080010"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="12" fill="#1e1020" stroke="#3a2050" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="10" fill="#100a18"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g3)"/>
+          <circle cx="40" cy="130" r="6" fill="#1e1028" stroke="#3a2058" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-sale">20% Off</span>
+        <div class="product-name">TY Lite Edge</div>
+        <div class="product-spec">6.4" IPS · 48MP · 5000mAh · MediaTek Dimensity · Modular Parts</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹11,999</span><span class="product-price-old">₹14,999</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P4 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#100800,#0a0500)">
+        <div class="card-features">
+          <span class="cf-badge solar">☀️ Solar</span>
+          <span class="cf-badge projector">📽️ Projector</span>
+          <span class="cf-badge esim">📶 eSIM</span>
+          <span class="cf-badge modular">🧩 Modular</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g4" cx="50%" cy="30%"><stop offset="0%" stop-color="#ff8c42" stop-opacity="0.5"/><stop offset="100%" stop-color="#0a0400"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="14" fill="#2a1500" stroke="#4a2500" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="12" fill="#160a00"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g4)"/>
+          <rect x="28" y="8" width="24" height="6" rx="3" fill="#2a1500"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-new">Flagship</span>
+        <div class="product-name">TY Ultra Max</div>
+        <div class="product-spec">6.8" LTPO AMOLED · 108MP · 6000mAh · All 6 Features Included</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹39,999</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P5 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#001010,#000c0c)">
+        <div class="card-features">
+          <span class="cf-badge solar">☀️ Solar</span>
+          <span class="cf-badge esim">📶 eSIM</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g5" cx="50%" cy="30%"><stop offset="0%" stop-color="#00e0c0" stop-opacity="0.4"/><stop offset="100%" stop-color="#000c0c"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="12" fill="#001e1e" stroke="#003a3a" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="10" fill="#000e0e"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g5)"/>
+          <circle cx="40" cy="130" r="6" fill="#001c1c" stroke="#003838" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-hot">Trending</span>
+        <div class="product-name">TY Aqua S</div>
+        <div class="product-spec">6.6" AMOLED · 64MP · IP68 · 5G · Solar · eSIM Ready</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹22,499</span><span class="product-price-old">₹26,000</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- P6 -->
+    <div class="product-card">
+      <div class="product-img" style="background:linear-gradient(145deg,#060614,#04040e)">
+        <div class="card-features">
+          <span class="cf-badge modular">🧩 Modular</span>
+        </div>
+        <svg class="phone-svg" viewBox="0 0 80 160" xmlns="http://www.w3.org/2000/svg">
+          <defs><radialGradient id="g6" cx="50%" cy="30%"><stop offset="0%" stop-color="#6060ff" stop-opacity="0.4"/><stop offset="100%" stop-color="#04040e"/></radialGradient></defs>
+          <rect x="4" y="4" width="72" height="152" rx="10" fill="#0a0a20" stroke="#1a1a40" stroke-width="1"/>
+          <rect x="8" y="8" width="64" height="144" rx="8" fill="#05050e"/>
+          <rect x="14" y="16" width="52" height="100" rx="6" fill="url(#g6)"/>
+          <circle cx="40" cy="130" r="6" fill="#0a0a1e" stroke="#1a1a3e" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="product-info">
+        <span class="product-tag tag-sale">Best Value</span>
+        <div class="product-name">TY Spark Go</div>
+        <div class="product-spec">6.3" HD+ · 13MP · 5000mAh · Modular Parts · Daily Driver</div>
+        <div class="product-footer">
+          <div><span class="product-price">₹7,499</span><span class="product-price-old">₹9,000</span></div>
+          <button class="add-cart-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-label">Why Tech Yield</div>
+  <h2 class="section-title">Built Different, Built Free</h2>
+  <p class="section-sub">Every phone we sell is engineered to outlast, outperform, and outthink the competition.</p>
+  <div class="features-grid">
+    <div class="feature-list">
+      <div class="feature-item"><div class="feature-icon">⚡</div><div class="feature-text"><h3>Flagship Performance</h3><p>Latest-gen processors in every model. Gaming, multitasking, AI — zero lag, always.</p></div></div>
+      <div class="feature-item"><div class="feature-icon">📷</div><div class="feature-text"><h3>Pro-Grade Cameras</h3><p>AI-enhanced optics, night mode, and optional Sony sensor upgrades via our modular system.</p></div></div>
+      <div class="feature-item"><div class="feature-icon">🔋</div><div class="feature-text"><h3>All-Day + Solar Battery</h3><p>Massive batteries combined with solar top-ups. Your phone charges while you work.</p></div></div>
+      <div class="feature-item"><div class="feature-icon">🛡️</div><div class="feature-text"><h3>2-Year Full Warranty</h3><p>Every device covered completely. Even modular swaps and upgrades are supported.</p></div></div>
+    </div>
+    <div class="features-visual">
+      <div class="spec-card"><div class="spec-icon-big">🏎️</div><div class="spec-info"><div class="spec-name">Processor Speed</div><div class="spec-val">3.2 GHz</div><div class="spec-bar-wrap"><div class="spec-bar" style="width:95%"></div></div></div></div>
+      <div class="spec-card"><div class="spec-icon-big">☀️</div><div class="spec-info"><div class="spec-name">Solar Charge Rate</div><div class="spec-val">Front + Rear Panel</div><div class="spec-bar-wrap"><div class="spec-bar" style="width:80%"></div></div></div></div>
+      <div class="spec-card"><div class="spec-icon-big">📡</div><div class="spec-info"><div class="spec-name">5G Download Speed</div><div class="spec-val">Up to 4 Gbps</div><div class="spec-bar-wrap"><div class="spec-bar" style="width:88%"></div></div></div></div>
+      <div class="spec-card"><div class="spec-icon-big">📸</div><div class="spec-info"><div class="spec-name">Camera Resolution</div><div class="spec-val">Up to 108 MP</div><div class="spec-bar-wrap"><div class="spec-bar" style="width:85%"></div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section id="reviews">
+  <div class="section-label">Customer Reviews</div>
+  <h2 class="section-title">People Love Tech Yield</h2>
+  <p class="section-sub">Real customers, real experiences.</p>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text">"The solar charging on my TY Ultra Max is a game-changer. I barely plug it in anymore. The built-in projector is insane — showed a movie on my bedroom wall!"</div>
+      <div class="reviewer"><div class="reviewer-avatar">RK</div><div><div class="reviewer-name">Rahul Khanna</div><div class="reviewer-loc">Mumbai, Maharashtra</div></div></div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text">"Upgraded my Nova 5G camera to a Sony module — the difference is night and day. Modular system is so easy. Tech Yield is genuinely the future."</div>
+      <div class="reviewer"><div class="reviewer-avatar">PS</div><div><div class="reviewer-name">Priya Singh</div><div class="reviewer-loc">Indore, MP</div></div></div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★☆</div>
+      <div class="review-text">"Connecting directly to my laptop without any app or cable driver is so convenient. eSIM switch in seconds. Tech Yield thought of everything!"</div>
+      <div class="reviewer"><div class="reviewer-avatar">AM</div><div><div class="reviewer-name">Arjun Mehta</div><div class="reviewer-loc">Delhi, India</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-text">
+    <h2>Ready to Own the<br/>Future?</h2>
+    <p>EMI from ₹999/month · Free delivery · 2-year warranty · Solar included.</p>
+  </div>
+  <div class="cta-actions">
+    <a href="#products" class="btn-primary">Shop Now →</a>
+    <a href="#contact" class="btn-outline">Talk to Us</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="font-size:1.1rem">Tech<span>Yield</span> Technology</a>
+      <p>Where Technology Meets Freedom. India's most innovative smartphone brand.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#">5G Phones</a></li>
+        <li><a href="#">Budget Range</a></li>
+        <li><a href="#">Flagship Series</a></li>
+        <li><a href="#">New Arrivals</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul>
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Warranty</a></li>
+        <li><a href="#">Modular Upgrades</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Innovations</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Tech Yield Technology. All rights reserved.</p>
+    <div class="social-links">
+      <a class="social-btn" href="#">in</a>
+      <a class="social-btn" href="#">tw</a>
+      <a class="social-btn" href="#">ig</a>
+      <a class="social-btn" href="#">yt</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+
+  document.querySelectorAll('.filter-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.add-cart-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const orig = btn.textContent;
+      btn.textContent = '✓ Added!';
+      btn.style.background = '#32c864';
+      setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1500);
+    });
+  });
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.product-card, .btile, .review-card, .spec-card, .feature-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
